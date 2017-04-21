@@ -13,6 +13,12 @@ code = 'utf-8'
 u = urllib.urlopen(url)
 lines = u.readlines()
 
+json_file_name='gui-config.json'
+if not os.path.exists(json_file_name):
+    with open(json_file_name,'w') as f:
+        new_config=json.dumps({"configs":[]})
+        f.write(new_config)
+
 def find_pass(lines):
     result_list = []
     ok = 0
@@ -24,11 +30,11 @@ def find_pass(lines):
             continue
         if host_name == '':
             host_name = re.findall(':.*?>([\w\.]*)<', line)[0]
-            
+
         ok = 1
         if '端口' in line:
             rst = re.findall('：(\d*)', line)
-            
+
             port = rst[0]
         if '密码' in line:
             rst = re.findall(':.*?>([\d]*)<', line)
@@ -53,7 +59,8 @@ def find_pass(lines):
 
 result_list = find_pass(lines)
 assert len(result_list) != 0, 'cannot get config'
-f = open('gui-config.json').read()
+
+f = open(json_file_name).read()
 data = json.loads(f)
 for host_name, passwd, port in result_list:
     is_init = 0
@@ -71,8 +78,7 @@ for host_name, passwd, port in result_list:
                     }
         data['configs'].append(new_conf)
 s = json.dumps(data,indent=3)
-f = open('gui-config.json', 'w')
+f = open(json_file_name, 'w')
 f.write(s)
 f.close()
 os.system('start Shadowsocks.exe')
-
