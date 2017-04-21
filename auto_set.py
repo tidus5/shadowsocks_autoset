@@ -5,7 +5,9 @@ import re
 import os
 
 server_name = 'IP地址:'
-url = 'http://free.ishadow.online/index_cn.html'
+url = 'http://ss.ishadow.online/index_cn.html'
+# isx.yt
+# isx.tn
 code = 'utf-8'
 
 u = urllib.urlopen(url)
