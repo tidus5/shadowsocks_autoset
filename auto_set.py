@@ -5,7 +5,7 @@ import re
 import os
 
 server_name = 'IP地址:'
-url = 'http://ss.ishadow.online/index_cn.html'
+url = 'https://global.ishadowx.net/index_cn.html'
 # isx.yt
 # isx.tn
 code = 'utf-8'
@@ -33,11 +33,11 @@ def find_pass(lines):
 
         ok = 1
         if '端口' in line:
-            rst = re.findall('：(\d*)', line)
+            rst = re.findall(':.*?>(\d*)', line)
 
             port = rst[0]
         if '密码' in line:
-            rst = re.findall(':.*?>([\d]*)<', line)
+            rst = re.findall(':.*?>(\d*)', line)
             if len(rst)==0:
                 print("WARNING:the passwd \"%s\" is not set, please don't use it!"%host_name)
                 ok = 0
