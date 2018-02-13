@@ -4,8 +4,8 @@ import urllib
 import re
 import os
 
-server_name = 'IP地址:'
-url = 'https://global.ishadowx.net/index_cn.html'
+server_name = 'IP Address:'
+url = 'https://global.ishadowx.net/'
 # isx.yt
 # isx.tn
 code = 'utf-8'
@@ -32,11 +32,12 @@ def find_pass(lines):
             host_name = re.findall(':.*?>([\w\.]*)<', line)[0]
 
         ok = 1
-        if '端口' in line:
+        if 'Port:' in line:
             rst = re.findall(':.*?>(\d*)', line)
 
             port = rst[0]
-        if '密码' in line:
+            
+        if 'Password:' in line:
             rst = re.findall(':.*?>(\d*)', line)
             if len(rst)==0:
                 print("WARNING:the passwd \"%s\" is not set, please don't use it!"%host_name)
@@ -46,6 +47,7 @@ def find_pass(lines):
                 host_name = ''
                 continue
             passwd = rst[0]
+            
         if passwd and port:
             print("\nhost name:%s" % host_name)
             print('port:%s' % rst[0])
@@ -58,6 +60,7 @@ def find_pass(lines):
     return result_list
 
 result_list = find_pass(lines)
+print result_list
 assert len(result_list) != 0, 'cannot get config'
 
 f = open(json_file_name).read()
