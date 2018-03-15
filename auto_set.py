@@ -5,7 +5,7 @@ import re
 import os
 
 server_name = 'IP Address:'
-url = 'https://global.ishadowx.net/'
+url = 'https://en.ishadowx.net/'
 # isx.yt
 # isx.tn
 code = 'utf-8'
