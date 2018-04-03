@@ -14,9 +14,6 @@ headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.
 req = urllib2.Request(url=url,headers=headers)  
 data = urllib2.urlopen(req).readlines() 
 
-u = data
-lines = data
-
 json_file_name='gui-config.json'
 if not os.path.exists(json_file_name):
     with open(json_file_name,'w') as f:
