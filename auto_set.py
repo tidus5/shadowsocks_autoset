@@ -1,17 +1,21 @@
 # coding=utf-8
 import json
-import urllib
+import urllib2
 import re
 import os
 
 server_name = 'IP Address:'
-url = 'https://en.ishadowx.net/'
+url = 'http://get.ishadowx.net/'
 # isx.yt
 # isx.tn
 code = 'utf-8'
+headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}  
 
-u = urllib.urlopen(url)
-lines = u.readlines()
+req = urllib2.Request(url=url,headers=headers)  
+data = urllib2.urlopen(req).readlines() 
+
+u = data
+lines = data
 
 json_file_name='gui-config.json'
 if not os.path.exists(json_file_name):
@@ -38,8 +42,12 @@ def find_pass(lines):
             port = rst[0]
             
         if 'Password:' in line:
-            rst = re.findall(':.*?>(\d*)', line)
-            if len(rst)==0:
+            rst = re.findall(':.*?>(.*?)[<\r\n]', line)
+            if (len(rst)==0 or not rst[0] or not port):
+                if(len(rst)>0  and not rst[0]):
+                    print(" get passwd failed, check regex")
+                if( not port):
+                    print(" get port failed, check regex")
                 print("WARNING:the passwd \"%s\" is not set, please don't use it!"%host_name)
                 ok = 0
                 passwd = 0
@@ -47,6 +55,7 @@ def find_pass(lines):
                 host_name = ''
                 continue
             passwd = rst[0]
+            
             
         if passwd and port:
             print("\nhost name:%s" % host_name)
